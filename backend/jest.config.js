@@ -9,5 +9,7 @@ module.exports = {
     collectCoverageFrom: [
         "src/**/*.{ts,tsx}"
     ],
-    testMatch: ["<rootDir>/tests/**/*.ts"],
+    testMatch: ["<rootDir>/__tests__/**/*.ts"],
+    testPathIgnorePatterns: ["<rootDir>/node_modules/"],
+    testEnvironment: "node"
 };
