@@ -4,13 +4,19 @@ import HttpException from "../exceptions/HttpException"
 import INote from "../interfaces/INote"
 import Notes from "../models/Notes";
 
+interface Filter {
+    title: string | RegExpConstructor;
+}
+
 class NotesController {
     async list(req: Request, res: Response, next: NextFunction) {
         const limit = Number(req.query.limit) || 0
         const offset = Number(req.query.offset) || 0
-        const title = String(req.query.title) || "";
+        const title = req.query.title;
 
-        const filter = { title: new RegExp(title, "i") }
+        let filter = {} as Filter
+        if (req.query.title)
+            filter.title = String(new RegExp(String(title), "i"));
 
         await Notes.find(filter)
             .skip(offset)
@@ -21,9 +27,9 @@ class NotesController {
                 } else {
                     Notes.countDocuments(filter, function (err: HttpException, count) {
                         res.set({
-                            'X-TOTAL-COUNT': count
+                            'X-Total-Count': count
                         })
-                        res.status(200).json({ data: noteInfo });
+                        res.status(200).json(noteInfo);
                     })
                 }
             });
@@ -33,16 +39,15 @@ class NotesController {
         if (req.params.id == null) {
             res.status(400).json({ status: "error", message: "Um ID para busca deve ser informado!" });
         } else {
-            await Notes.findById(req.params.id, function (err: HttpException, noteInfo: INote) {
-                if (err) {
-                    next(err);
-                } else {
-                    if (noteInfo)
-                        res.status(200).json(noteInfo);
-                    else
-                        res.status(400).json({ status: "error", message: "Nota não encontrada!" })
-                }
-            });
+            const noteInfo = await Notes.findById(req.params.id).populate({
+                path: "attachments",
+                options: { sort: { createdAt: -1 } }
+            })
+
+            if (noteInfo)
+                res.status(200).json(noteInfo);
+            else
+                res.status(400).json({ status: "error", message: "Nota não encontrada!" })
         }
     }
 

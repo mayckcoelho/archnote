@@ -1,9 +1,6 @@
-import mongoose, { Document } from "mongoose";
+import mongoose from "mongoose";
 
-interface IAttachment extends Document {
-    title: string;
-    content: string;
-}
+import IAttachment from "../interfaces/IAttachment"
 
 const Attachments = new mongoose.Schema<IAttachment>({
     name: {
@@ -14,18 +11,15 @@ const Attachments = new mongoose.Schema<IAttachment>({
     path: {
         type: String,
         required: true
-    },
-    note: {
-        type: mongoose.Schema.Types.ObjectId, ref: "Notes"
     }
 }, {
     timestamps: true,
     toObject: { virtuals: true },
-    toJson: { virtuals: true }
+    toJSON: { virtuals: true }
 });
 
-Attachments.virtual('url').get(function () {
-    return `http://localhost:8082/files/${encodeURIComponent(this.path)}`;
+Attachments.virtual('url').get(function (this: { path: string }) {
+    return `http://localhost:8082/attachments/${encodeURIComponent(this.path)}`;
 })
 
 export default mongoose.model('Attachments', Attachments);

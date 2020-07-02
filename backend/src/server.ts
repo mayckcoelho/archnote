@@ -1,8 +1,11 @@
+import dotenv from "dotenv";
 import express, { Request, Response, NextFunction } from "express";
 import mongoose from "mongoose";
 import path from "path";
 import cors from "cors";
 import jwt, { VerifyCallback } from "jsonwebtoken";
+
+dotenv.config();
 
 import DecodedParams from "./interfaces/IDecodedParams"
 import HttpException from "./exceptions/HttpException"
@@ -14,13 +17,15 @@ const app = express();
 
 app.use(cors());
 
-mongoose.connect('mongodb://publicadores01:oministack@mongo71-farm76.kinghost.net/publicadores01?retryWrites=true&w=majority', {
+mongoose.connect('mongodb+srv://archnote-user:archnote-user@cluster0.1p0au.mongodb.net/archnote?retryWrites=true&w=majority', {
     useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false
 });
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/attchment', express.static(path.resolve(__dirname, '..', 'tmp')));
+app.use('/attachments', express.static(path.resolve(__dirname, '..', 'tmp')));
 
 app.get('/', function (req: Request, res: Response) {
     res.json({ "Bem-vindo": "Esta é a Api do ArchNote" });
@@ -34,20 +39,25 @@ app.use(function (req: Request, res: Response, next: NextFunction) {
 app.use('/users', validateUser, users);
 app.use('/notes', validateUser, notes);
 
+const publicRoutes = [
+    "/authenticate",
+    "/register"
+]
+
 function validateUser(req: Request, res: Response, next: NextFunction) {
-    if (req.url != '/authenticate') {
+    if (publicRoutes.includes(req.url)) {
+        next();
+    } else {
         const token = req.headers['authorization']?.replace('Bearer ', '') as string;
         jwt.verify(token, process.env.JWT_SECRET as string, function (err, decoded: DecodedParams) {
             if (err) {
                 res.status(401).json({ status: "error", message: err.message });
             } else {
                 // add user id to requestss
-                req.body.userId = decoded.id;
+                req.body.user = decoded.id;
                 next();
             }
         } as VerifyCallback);
-    } else {
-        next();
     }
 }
 
@@ -59,7 +69,6 @@ app.use(function (req: Request, res: Response, next: NextFunction) {
 
 // handle errors
 app.use(function (err: HttpException, req: Request, res: Response) {
-
     if (err.status === 404)
         res.status(404).json({ status: "error", message: "Not found", url: req.url });
     else

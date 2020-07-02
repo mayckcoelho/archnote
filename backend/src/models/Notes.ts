@@ -10,10 +10,15 @@ const Notes = new mongoose.Schema<INote>({
     },
     content: {
         type: String,
+        required: true
     },
     user: {
-        type: mongoose.Schema.Types.ObjectId, ref: "Users"
-    }
+        type: mongoose.Schema.Types.ObjectId, ref: "Users",
+        required: true
+    },
+    attachments: [{
+        type: mongoose.Schema.Types.ObjectId, ref: "Attachments"
+    }]
 }, {
     timestamps: true
 });

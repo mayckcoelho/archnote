@@ -13,6 +13,7 @@ router.post('/', NotesController.create);
 router.put('/:id', NotesController.update);
 router.delete('/:id', NotesController.delete);
 
-routes.post('/:id/attachments', multer(multerConfig).single('file'), AttachmentsController.store)
+router.post('/:id/attachments', multer(multerConfig).single('file'), AttachmentsController.create)
+router.delete('/:id/attachments/:idAttachment', AttachmentsController.delete)
 
 export default router;

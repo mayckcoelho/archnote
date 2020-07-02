@@ -7,27 +7,6 @@ import IUser from "../interfaces/IUser"
 import Users from "../models/Users";
 
 class UsersController {
-    async list(req: Request, res: Response, next: NextFunction) {
-        const limit = Number(req.query.limit) || 0
-        const offset = Number(req.query.offset) || 0
-
-        await Users.find()
-            .skip(offset)
-            .limit(limit)
-            .exec(function (err: HttpException, userInfo: IUser) {
-                if (err) {
-                    next(err);
-                } else {
-                    Users.countDocuments({}, function (err: HttpException, count) {
-                        res.set({
-                            'X-TOTAL-COUNT': count
-                        })
-                        res.status(200).json({ data: userInfo });
-                    })
-                }
-            });
-    }
-
     async listOne(req: Request, res: Response, next: NextFunction) {
         if (req.params.id == null) {
             res.status(400).json({ status: "error", message: "Um ID para busca deve ser informado!" });
@@ -111,7 +90,7 @@ class UsersController {
                 next(err);
             } else {
                 if (userInfo != null && bcrypt.compareSync(req.body.password, userInfo.password)) {
-                    const token = jwt.sign({ id: userInfo._id }, req.app.get('secretKey'), { expiresIn: '1h' });
+                    const token = jwt.sign({ id: userInfo._id }, process.env.JWT_SECRET as string, { expiresIn: '1h' });
                     res.json({ user: userInfo, token: token });
                 } else {
                     res.status(404).json({ status: "error", message: "Email/Senha inválido!" });

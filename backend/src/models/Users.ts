@@ -3,6 +3,8 @@ import bcrypt from "bcrypt";
 
 import IUser from "../interfaces/IUser"
 
+const saltRounds = 10
+
 const Users = new mongoose.Schema<IUser>({
     name: {
         type: String,
@@ -25,7 +27,7 @@ const Users = new mongoose.Schema<IUser>({
 
 // hash user password before saving into database
 Users.pre<IUser>('save', function (next) {
-    this.password = bcrypt.hashSync(this.password, process.env.PASSWORD_SALTROUNDS as string);
+    this.password = bcrypt.hashSync(this.password, saltRounds);
     next();
 });
 
