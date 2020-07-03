@@ -1,20 +1,15 @@
 import React, { useState, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component"
+import { useHistory } from "react-router-dom";
 import useWindowDimensions from "../../shared/hooks/useWindowDimensions";
 
 import api from "../../services/api";
 
 import NoteItem from "./NoteItem";
 import NoteDatail from "../NoteDetail";
-
-import { useAuth } from "../../contexts/auth";
+import Plus from "../../assets/plus.png"
 import {
-    Container,
-    OrderSelect,
-    SubHeader,
-    Header,
     List,
-    Note,
     NewNote,
     NewNoteContent
 } from "./styles";
@@ -26,8 +21,19 @@ const Home: React.FC = () => {
     const [hasMore, setHasMore] = useState(true)
     const [selectedNote, setSelectedNote] = useState<string | null>(null)
 
-    const { signOut } = useAuth();
+    const history = useHistory();
     const { width } = useWindowDimensions();
+
+    const handleClick = () => {
+        if (width <= 720) {
+            history.push({
+                pathname: "/note",
+                state: { selectedNote: "0" }
+            })
+        } else {
+            setSelectedNote("0")
+        }
+    }
 
     const fetchData = async () => {
         const response = await api.get(`/notes?limit=${10}&offset=${notes.length}`)
@@ -47,23 +53,7 @@ const Home: React.FC = () => {
     }, [])
 
     return (
-        <Container>
-            <Header>
-                <div>
-                    Ordenar por
-                    <OrderSelect>
-                        <option>Data</option>
-                        <option>Título</option>
-                    </OrderSelect>
-                </div>
-                <h1>Home</h1>
-                <button onClick={signOut}>Logout</button>
-            </Header>
-            <SubHeader>
-                <NewNoteContent>
-                    <NewNote>Nova Nota</NewNote>
-                </NewNoteContent>
-            </SubHeader>
+        <>
             <List>
                 <InfiniteScroll
                     dataLength={notes.length}
@@ -84,12 +74,13 @@ const Home: React.FC = () => {
                         <NoteItem key={i} note={n} setSelectedNote={setSelectedNote} />
                     ))}
                 </InfiniteScroll>
+
+                <NewNoteContent>
+                    <NewNote onClick={handleClick}><img src={Plus} alt="Adicionar" /><p>Nova Nota</p></NewNote>
+                </NewNoteContent>
             </List>
-            {width > 720 &&
-                <Note>
-                    <NoteDatail selectedNote={selectedNote} />
-                </Note>}
-        </Container>
+            {width > 720 && <NoteDatail selectedNote={selectedNote} />}
+        </>
     )
 }
 

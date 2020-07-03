@@ -1,16 +1,16 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-    border-bottom: 2px solid #f6f6f6;
+    border-bottom: 2px solid #eaeaea;
 
-    /* background-color: #f6f6f6; */
+    /* background-color: #fcfcfc; */
 
     transition-duration: .5s;
 
     cursor: pointer;
 
     &:hover {
-        background-color: #f6f6f6;
+        background-color: #eaeaea;
         box-shadow: 1px 2px 20px 1px rgba(0, 0, 0, .15);
         -webkit-transform: translate(0px, -5px);
         -ms-transform: translate(0px, -5px);
@@ -24,8 +24,8 @@ export const Container = styled.div`
 export const Content = styled.div`
     box-sizing: border-box;
 
-    max-width: 70%;
-    margin: 0 2rem 0 auto;
+    max-width: 90%;
+    margin: 0 auto;
 
     padding: 2rem 0;
 `
@@ -46,10 +46,6 @@ export const NoteContent = styled.p`
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;  
     overflow: hidden;
-`
-
-export const BottomContent = styled.div`
-    
 `
 
 export const NoteDate = styled.span`

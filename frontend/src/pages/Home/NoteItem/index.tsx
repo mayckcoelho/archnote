@@ -8,8 +8,7 @@ import {
     Content,
     NoteTitle,
     NoteDate,
-    NoteContent,
-    BottomContent
+    NoteContent
 } from "./styles";
 import INote from "../../../shared/interfaces/INote"
 
@@ -41,9 +40,9 @@ const NoteItem: React.FC<Props> = ({ note, setSelectedNote }) => {
             <Content>
                 <NoteTitle>{note.title}</NoteTitle>
                 <NoteContent>{note.content}</NoteContent>
-                <BottomContent>
+                <div>
                     <NoteDate>{moment(note.createdAt).format('dddd')}</NoteDate>
-                </BottomContent>
+                </div>
             </Content>
         </Container>
     )
