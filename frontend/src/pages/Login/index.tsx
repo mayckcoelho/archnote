@@ -14,7 +14,7 @@ const Login: React.FC = () => {
                 <FormLogin />
             </Card>
             <NewAccountTitle>Não tem uma conta ainda?</NewAccountTitle>
-            <NewAccountLink>Crie uma conta</NewAccountLink>
+            <NewAccountLink href="/register">Crie uma conta</NewAccountLink>
         </Container>
     )
 }

@@ -21,6 +21,7 @@ class NotesController {
         await Notes.find(filter)
             .skip(offset)
             .limit(limit)
+            .sort({ createdAt: -1 })
             .exec(function (err: HttpException, noteInfo: INote) {
                 if (err) {
                     next(err);
