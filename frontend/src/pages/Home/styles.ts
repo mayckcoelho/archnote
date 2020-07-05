@@ -22,7 +22,7 @@ export const NewNote = styled.button`
     justify-content: center;
     align-items: center;
 
-    background: #f7ba44;
+    background: #f8c200;
     border: none;
 
     transition-duration: .5s;
@@ -42,4 +42,9 @@ export const List = styled.section`
     border-right: 2px solid #fcfcfc;
 
     grid-area: list;
+`
+
+export const ListMessage = styled.div`
+    text-align: center;
+    margin: 2rem auto;
 `

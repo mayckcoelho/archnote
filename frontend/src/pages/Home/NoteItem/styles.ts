@@ -3,11 +3,13 @@ import styled from "styled-components";
 export const Container = styled.div`
     border-bottom: 2px solid #eaeaea;
 
-    /* background-color: #fcfcfc; */
-
     transition-duration: .5s;
 
     cursor: pointer;
+
+    &.selected {
+        background-color: #eaeaea;
+    }
 
     &:hover {
         background-color: #eaeaea;
@@ -27,11 +29,12 @@ export const Content = styled.div`
     max-width: 90%;
     margin: 0 auto;
 
-    padding: 2rem 0;
+    padding-top: 2rem;
 `
 
-export const NoteTitle = styled.strong`
+export const NoteTitle = styled.div`
     margin: 1rem 0;
+    font-weight: bold;
 
     display: -webkit-box;
     -webkit-line-clamp: 1;
@@ -39,7 +42,7 @@ export const NoteTitle = styled.strong`
     overflow: hidden;
 `
 
-export const NoteContent = styled.p`
+export const NoteContent = styled.div`
     margin: 1.5rem 0;
 
     display: -webkit-box;
@@ -56,4 +59,17 @@ export const NoteDate = styled.span`
     font-weight: bold;
 
     text-transform: capitalize;
+`
+
+export const BottomInfo = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 90%;
+    margin: 0 auto;
+    padding-bottom: 2rem;
+
+    & > img {
+        cursor: pointer;
+    }
 `

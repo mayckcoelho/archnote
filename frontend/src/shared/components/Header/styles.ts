@@ -8,17 +8,25 @@ export const Container = styled.header`
     align-items: center;
 
     grid-area: header;
-    box-shadow: 3px 3px 5px 6px rgba(0, 0, 0, .15);
-    background: #f7ba44;
+    background: #f8c200;
 
     & > div {
         color: #535353;
+    }
+
+    & > h1 {
+        font-family: 'Squada One', cursive;
+        font-size: 4.8rem;
+
+        @media (max-width: 720px) {
+            font-size: 3.6rem;
+        }
     }
 `
 
 export const UserDetail = styled.div`
     display: flex;
-    align-content: center;
+    align-items: center;
 `
 
 export const ButtonLogOut = styled.button`

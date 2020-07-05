@@ -49,13 +49,13 @@ export const Name = styled.h1`
     font-size: 3.6rem;
 `
 
-export const NewAccountTitle = styled.p`
+export const AccountTitle = styled.p`
     color: #323232;
     font-size: 1.4rem;
     margin: 1rem auto;
 `
 
-export const NewAccountLink = styled.a`
+export const AccountLink = styled.a`
     color: #1f535b;
     font-size: 1.4rem;
     margin: 1rem auto 2rem;

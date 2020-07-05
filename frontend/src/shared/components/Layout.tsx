@@ -8,7 +8,7 @@ const Layout = styled.main`
         "header header"
         "list note";
     grid-template-rows: 8rem auto;
-    grid-template-columns: 40rem 2fr;
+    grid-template-columns: 30rem 2fr;
     background: #fcfcfc;
 
     @media (max-width: 720px) {

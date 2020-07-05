@@ -1,6 +1,4 @@
-import { Document } from "mongoose";
-
-interface IAttachment extends Document {
+interface IAttachment {
     id: string;
     name: string;
     path: string;

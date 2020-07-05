@@ -7,7 +7,7 @@ import Routes from './routes'
 
 const options = {
   timeout: 5000,
-  position: positions.TOP_RIGHT
+  position: positions.TOP_CENTER
 };
 
 const App: React.FC = () => {

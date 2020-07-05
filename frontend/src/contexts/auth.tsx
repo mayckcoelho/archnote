@@ -6,6 +6,7 @@ import { useAlert } from "react-alert";
 import IUser from "../shared/interfaces/IUser";
 import IAuthContextData from "../shared/interfaces/IAuthContextData";
 import ISignInRequest from "../shared/interfaces/ISignInRequest";
+import IRegisterRequest from "../shared/interfaces/IRegisterRequest";
 
 const AuthContext = createContext<IAuthContextData>({} as IAuthContextData);
 
@@ -36,7 +37,6 @@ export const AuthProvider: React.FC = ({ children }) => {
         const response = await auth.signIn(data).catch(err => {
             alert.error(err.response.data.message)
         });
-        console.log(response)
         if (response) {
             setUser(response.data.user);
 
@@ -47,13 +47,19 @@ export const AuthProvider: React.FC = ({ children }) => {
         }
     }
 
+    const register = async (data: IRegisterRequest) => {
+        await auth.register(data).catch(err => {
+            alert.error(err.response.data.message)
+        });
+    }
+
     const signOut = () => {
         localStorage.clear();
         setUser(null);
     }
 
     return (
-        <AuthContext.Provider value={{ signed: !!user, user, loading, signIn, signOut }}>
+        <AuthContext.Provider value={{ signed: !!user, user, loading, signIn, register, signOut }}>
             {children}
         </AuthContext.Provider>
     )

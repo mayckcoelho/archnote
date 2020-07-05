@@ -7,7 +7,7 @@ import {
     ButtonLogOut
 } from "./styles"
 
-import SignOut from "../../../assets/signout.png"
+import SignOut from "../../../assets/signout.svg"
 
 const Header: React.FC = () => {
 
@@ -17,7 +17,7 @@ const Header: React.FC = () => {
         <Container>
             <h1>ArchNote</h1>
             <UserDetail>
-                <h1>{user?.name}</h1>
+                <h3>{user?.name}</h3>
                 <ButtonLogOut onClick={signOut}><img src={SignOut} alt="LogOut" /></ButtonLogOut>
             </UserDetail>
         </Container>

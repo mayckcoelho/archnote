@@ -5,6 +5,7 @@ import INote from "../interfaces/INote"
 import Notes from "../models/Notes";
 
 interface Filter {
+    user: string;
     title: string | RegExpConstructor;
 }
 
@@ -14,7 +15,7 @@ class NotesController {
         const offset = Number(req.query.offset) || 0
         const title = req.query.title;
 
-        let filter = {} as Filter
+        let filter = { user: req.body.user } as Filter
         if (req.query.title)
             filter.title = String(new RegExp(String(title), "i"));
 
