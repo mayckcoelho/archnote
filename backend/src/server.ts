@@ -17,7 +17,7 @@ const app = express();
 
 app.use(cors());
 
-mongoose.connect('mongodb+srv://archnote-user:archnote-user@cluster0.1p0au.mongodb.net/archnote?retryWrites=true&w=majority', {
+mongoose.connect('mongodb+srv://<db-user>:<db-password>@<db-host>/<db-name>?retryWrites=true&w=majority', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false
